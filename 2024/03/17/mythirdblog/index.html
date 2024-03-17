@@ -465,61 +465,97 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <hr>
-<p>title: jsp<br>date: 2024-03-17 13:51:55</p>
-<p>session.setAttribute(“sessionName”,Object);<br>用来设置session值的，sessionName是名称，object是你要保存的对象。<br>session.getAttribute(“sessionName”);<br>用来得到对应名称的session值，即得到object对象，注意需要进行类型转换！</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;% String user=(String)session.getAttribute(<span class="string">&quot;userName&quot;</span>);%&gt;</span><br></pre></td></tr></table></figure>
-
-<p>session.setAttribute(“xyyyy”,xyyy);保存</p>
-<p>session.getAttribute(“xyyyy”);取得</p>
-<h3 id="Session的常用方法"><a href="#Session的常用方法" class="headerlink" title="Session的常用方法"></a>Session的常用方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">isNew()//判断是否是新的Session，一般在第一次访问的时候出现</span><br><span class="line">getid()//拿到session的ID</span><br><span class="line">getCreationTime()//当前session创建的时间</span><br><span class="line">getLastAccessedTime()//最近的一次访问这个session的时间。</span><br><span class="line">setAttribute()//设置Session的值</span><br><span class="line">getAttribute()//获取Session的值</span><br><span class="line">removeAttribute()//移除Session的值</span><br><span class="line">invalidate()//手动注销Session</span><br></pre></td></tr></table></figure>
-
-<p>问题描述：<br>我们通过session机制进行用户登录访问页面，其中涉及到了cookie机制，cookie是存储在浏览器端，假如浏览器关闭阻止了cookie，还能通过session进行登录访问页面吗</p>
-<p>原因分析：<br>        当我们在登录页面填写好用户名和密码时，点击登录按钮，然后浏览器将请求发送给后端处理，后端会生成一个对应的session(可以理解成一种数据结构)，将你的用户信息存储在这个session中，然后将session id(可以理解成打开这个数据结构的钥匙)放进cookie(又可以理解成一种数据结构)中返回给浏览器，浏览器会自动存储cookie，之后的请求浏览器会在请求头中自动给你带上这个cookie，然后在后端就能通过请求头中的cookie找到session中的用户信息，表明用户已经登录，可以正常进行访问。</p>
-<pre><code>    但是如果用户将cookie这种机制给关闭阻止了，不想让浏览器存储cookie该怎么办呢？就不能通过session进行用户登录了吗？这个时候后端仍然会将生成的这个cookie返回给浏览器，虽然浏览器不会自动存储了，但是仍然返回了，所以前端可以获取这个cookie进行处理保存，之后的请求仍然能带上，能继续通过session机制进行访问。
+<p>title: mythirdblog<br>date: 2024-03-17 15:14:58</p>
+<p>银行家算法<br>#include&lt;stdio.h&gt;<br>#include&lt;string.h&gt;<br>#include&lt;stdlib.h&gt;</p>
+<p>#define FALSE 0<br>#define TRUE 1<br>#define M 10  &#x2F;&#x2F;最大进程数<br>#define N 10  &#x2F;&#x2F;最大资源类数<br>int m;&#x2F;&#x2F;进程数<br>int n;&#x2F;&#x2F;资源数目<br>int id; &#x2F;&#x2F;进程号</p>
+<p>int Available[N];	&#x2F;&#x2F;可分配的资源数<br>int MAX[M][N];		&#x2F;&#x2F;最大需求资源数<br>int Need[M][N];		&#x2F;&#x2F;还需要多少资源数<br>int Allocation[M][N];	&#x2F;&#x2F;已经得到的资源数<br>int Request[N];		&#x2F;&#x2F;请求资源数<br>int Work[N];	<br>int Finish[M];<br>int flag &#x3D; FALSE;<br>int safe[M];</p>
+<p>void init()<br>{<br>    int i&#x3D;0,j&#x3D;0;<br>    printf(“请输入进程数目:\n”);<br>    scanf(“%d”,&amp;m);<br>    printf(“请输入资源种数:\n”);<br>    scanf(“%d”,&amp;n);<br>    printf(“请输入各类资源可用数:\n”);<br>    for(; i&lt;n;i++)<br>        scanf(“%d”,&amp;Available[i]);<br>    printf(“输入各进程对各资源的最大需求:\n”);<br>    for(i&#x3D;0;i&lt;m;i++)<br>    {<br>        printf(“进程P%d:\n”,i);<br>        for(j&#x3D;0;j&lt;n;j++)<br>            scanf(“%d”,&amp;MAX[i][j]);<br>    }<br>        printf(“请输入T时刻各进程已得到的资源情况:\n”);<br>        for(i&#x3D;0;i&lt;m;i++)<br>        {<br>            printf(“进程P%d:\n”,i);<br>            for(j&#x3D;0;j&lt;n;j++)<br>            scanf(“%d”,&amp;Allocation[i][j]);<br>        }		</p>
+<pre><code> /*一开始的 Need*/
+    for(i=0;i&lt;m;i++)
+     for(j=0;j&lt;n;j++)
+        Need[i][j]=MAX[i][j]-Allocation[i][j];
 </code></pre>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--</span><br><span class="line">（<span class="number">4</span>）使用 include 指令包含一个静态文件。具体实现：设计两个 JSP 页面 includeAction.jsp</span><br><span class="line">和 includeHello.jsp 。 在 includeHello.jsp 文 件 中 输 出 一 行 文 字 “includeHello Page!”, 在</span><br><span class="line">includeAction.jsp 文件中利用 include 指令将该文件包含进来。</span><br><span class="line"> 两个文件中各自定义了一个变量，并分别在另一个文件中访问，验证访问结果。</span><br><span class="line">--%&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;includeHello文件&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%out.print(<span class="string">&quot;&lt;h2&gt;includeHello Page! &lt;/h2&gt;&quot;</span>);%&gt;</span><br><span class="line">&lt;% <span class="type">int</span> sum=<span class="number">10</span>;%&gt;</span><br><span class="line">&lt;%=s1%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;title&gt;includeAction文件&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;% String s1=<span class="string">&quot;jsp课程设计&quot;</span>; %&gt;</span><br><span class="line">&lt;%--要在include之前写，不然会出错--%&gt;</span><br><span class="line">&lt;%<span class="meta">@include</span> file=<span class="string">&quot;includeHello111.jsp&quot;</span>%&gt;</span><br><span class="line">&lt;%--下面的数据都是另一个文件上加载的--%&gt;</span><br><span class="line">&lt;%=sum%&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<p>&lt;!%  %&gt;与&lt;%  %&gt;的比较</p>
-<p>二者的差异在于作用域和生存期：</p>
-<p>①jsp声明中创建的名字有类范围的作用域和生存期</p>
-<p>②jsp脚本中创建的名字有局限于方法的作用域和生存期。</p>
-<p>二者的作用域就像是java中在类中定义一个属性A和在类的方法中定义一个属性B，类中不能引用属性B，但是在方法中可以引用属性A。</p>
-<p>二者的生存期：</p>
-<p>①jsp声明，例如：&lt;%!int count&#x3D;100;%&gt;&lt;%&#x3D;count++%&gt;。  脚本中的变量生存期存在于第一个用户延续到第二个用户。。。。，如果第一个用户第一次访问时100，第二个用户访问就101，第三个用户访问时102，以此类推。。。如果服务器停止而重新启动后，则count值就返回到100。</p>
-<p>②jsp脚本，例如：&lt;%int count&#x3D;100;%&gt;&lt;%&#x3D;count++%&gt;。  脚本中的变量生存期存在于每个用户的访问期间，所以每次用户访问都是100。</p>
-<p>无论声明和脚本放置的位置不同，jsp容器都是首先进行初始化声明，再执行脚本的。</p>
-<p>jsp文件中charset和pageEncoding的区别：</p>
-<p>   <strong>contentType的charset是指服务器发送给客户端时的内容编码，****contentType里的charset&#x3D;utf-8是指示页面的输出方式为utf-8</strong></p>
-<p><strong>在JSP标准的语法中，如果 pageEncoding属性存在，那么JSP页面的字符编码方式就由pageEncoding决定，否则就由contentType属性中的 charset决定，如果charset也不存在，JSP页面的字符编码方式就采用默认的ISO-8859-1</strong></p>
-<p>JSP的常用动作</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>、&lt;jsp:param&gt;动作用于&lt;jsp:include&gt;和&lt;jsp:forward&gt;动作中，为其他动作提供附加信息。</span><br><span class="line">&lt;jsp:param name=<span class="string">&quot;参数名&quot;</span> value=<span class="string">&quot;参数值&quot;</span>/&gt;</span><br><span class="line"><span class="number">2</span>、&lt;jsp:include&gt;动作把指定文件插入正在生成的页面中。</span><br><span class="line">&lt;jsp:include page=<span class="string">&quot;文件名&quot;</span> flush=<span class="string">&quot;true&quot;</span>/&gt;&lt;/jsp:include&gt;</span><br><span class="line">flush属性指定在包含目标资源之前是否刷新输出缓冲区，默认flase</span><br><span class="line">或者</span><br><span class="line">&lt;jsp:include page=<span class="string">&quot;文件名&quot;</span> flush=<span class="string">&quot;true&quot;</span>/&gt;</span><br><span class="line">	&lt;jsp:param name=<span class="string">&quot;参数名&quot;</span> value=<span class="string">&quot;参数值&quot;</span>/&gt;</span><br><span class="line">&lt;/jsp:include&gt;</span><br><span class="line">&lt;jsp:include&gt;&lt;/jsp:include&gt;动作和include指令之间的根本不同在于他们被调用的时间。</span><br><span class="line">&lt;jsp:include&gt;&lt;/jsp:include&gt;动作在请求期间被激活，而include指令在页面转换期间被激活。</span><br><span class="line"> </span><br><span class="line">&lt;jsp:include page=<span class="string">&quot;文件名&quot;</span> flush=<span class="string">&quot;true&quot;</span>/&gt;</span><br><span class="line">	&lt;jsp:param name=<span class="string">&quot;参数名&quot;</span> value=<span class="string">&quot;参数值&quot;</span>/&gt;</span><br><span class="line">&lt;/jsp:include&gt;</span><br><span class="line">使用&lt;%=request.getParamter(<span class="string">&quot;参数名&quot;</span>)%&gt;  来获取页面之间传送的参数的值</span><br><span class="line">   </span><br><span class="line"> </span><br><span class="line"><span class="number">3</span>、&lt;jsp:useBean id=<span class="string">&quot;Bean的&quot;</span>&gt;&lt;/jsp:useBean&gt;</span><br><span class="line"><span class="number">4</span>、&lt;jsp:setProperty&gt;&lt;/jsp:setProperty&gt;</span><br><span class="line"><span class="number">5</span>、&lt;jsp:getProperty&gt;&lt;/jsp:getProperty&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">request.getParameter()方法传递的数据，会从web客户端传到web服务器端，代表HTTP请求数据，该方法返回String类型的数据</span><br><span class="line">&lt;% String str=request.getParameter(<span class="string">&quot;num&quot;</span>);%&gt;</span><br><span class="line">request.getParameter()方法:</span><br><span class="line"><span class="number">1.</span>获取通过http协议提交过来的数据. 通过容器的实现来取得通过get或者post方式提交过来的数据</span><br><span class="line"><span class="number">2.</span>request.getParameter()方法传递的数据，会从web客户端传到web服务器端，代表HTTP请求数据，该方法返回String类型的数据</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>getParameter()用来去post或者get提交表单时候，获得表单里的数据，或者是url上的参数</span><br><span class="line"></span><br><span class="line">request.setAttribute()和getAttribute()只是在web容器内部流转，仅仅是请求处理阶段</span><br><span class="line"></span><br><span class="line">request.getAttribute()方法返回request范围内存在的对象</span><br><span class="line"></span><br><span class="line">request.setAttribute() 和 getAttribute() 方法传递的数据只会存在于Web容器内部</span><br><span class="line">HttpServletRequest 类有 setAttribute() 方法，而没有setParameter() 方法</span><br><span class="line">一般通过表单和链接传递的参数使用getParameter</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">例题：</span><br><span class="line">&lt;%--（<span class="number">1</span>）加载动态文件。制作一个 JSP 文件（factorial.jsp），计算一个数的阶乘。然后再制作一个 JSP 文件（include_factorial.jsp），应用&lt;jsp:include&gt;动作加载刚制作的 JSP 文件 factorial.jsp并向该文件传递相关参数，查看结果，并在客户端的“查看源文件”中观察源文件。--%&gt;</span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;factorial.jsp&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;%--request.getParameter()方法传递的数据，会从web客户端传到web服务器端，代表HTTP请求数据，该方法返回String类型的数据</span><br><span class="line">从一个文件中传送到另一个页面中</span><br><span class="line">--%&gt;</span><br><span class="line">  &lt;% String str=request.getParameter(<span class="string">&quot;num&quot;</span>);</span><br><span class="line"><span class="comment">//  如果没有接受到值的话，str=null</span></span><br><span class="line">  <span class="keyword">if</span>(str==<span class="literal">null</span>)</span><br><span class="line">      str=<span class="string">&quot;1&quot;</span>;</span><br><span class="line"><span class="comment">//Integer.parseInt() 是Integer包装类下的一个方法，作用是将()内的String类型字符串转化为int类型</span></span><br><span class="line">      <span class="type">int</span> i=Integer.parseInt(str);</span><br><span class="line">      <span class="type">int</span> sum=<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">while</span>(i&gt;<span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        sum*=i;</span><br><span class="line">        i--;</span><br><span class="line">    &#125;</span><br><span class="line">  %&gt;</span><br><span class="line"> &lt;%=sum%&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;%@ page contentType=<span class="string">&quot;text/html;charset=UTF-8&quot;</span> language=<span class="string">&quot;java&quot;</span> %&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;title&gt;include_factorial.jsp&lt;/title&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        p&#123;</span><br><span class="line">            font-size: 40px;</span><br><span class="line">            color: skyblue;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;p&gt;求一个数的阶乘&lt;/p&gt;</span><br><span class="line">&lt;%--  &lt;jsp:include page=<span class="string">&quot;文件名&quot;</span> flush=<span class="string">&quot;true&quot;</span>/&gt;</span><br><span class="line">	&lt;jsp:param name=<span class="string">&quot;参数名&quot;</span> value=<span class="string">&quot;参数值&quot;</span>/&gt;</span><br><span class="line">&lt;/jsp:include&gt;--%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%--  把指定文件插入正在生成的页面中--%&gt;</span><br><span class="line">  &lt;%--jsp:param动作用于&lt;jsp:include&gt;和&lt;jsp:forword&gt;动作中，提供附加信息--%&gt;</span><br><span class="line">  &lt;jsp:include page=<span class="string">&quot;factorial.jsp&quot;</span>&gt;</span><br><span class="line">      &lt;jsp:param name=<span class="string">&quot;num&quot;</span> value=<span class="string">&quot;5&quot;</span>/&gt;</span><br><span class="line">  &lt;/jsp:include&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>equals方法：判断两个对象是否相等</p>
-<p>name.equals(“QQ”):name 的值与“QQ”是否一样，一样是true，不一致时false</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jsp的声明：&lt;%!  %&gt;</span><br><span class="line">jsp的脚本：&lt;%  %&gt;</span><br><span class="line">jsp的常用动作不包含在&lt;% %&gt;中</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;jsp:forword&gt;</span><br><span class="line">JSP中的页面转发是一种页面跳转方式，它允许从一个JSP页面转发到另一个JSP页面或Servlet。</span><br><span class="line">通过&lt;jsp:forward&gt;标签指定转发的目标地址，并将请求转发到该地址。</span><br><span class="line">&lt;jsp:forward page=<span class="string">&quot;地址或页面&quot;</span>/&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>JSP的四大域对象</p>
-<p>四种属性范围   属性范围是指一个设置的对象，可以在多少个页面中保存并可以继续使用。</p>
-<p>page范围：</p>
-<p> pageContext:只在一个页面中保存属性，跳转之后无效</p>
-<p>request范围：</p>
-<p>request：只在一次请求中保存，服务器跳转后依然有效</p>
-<p>session范围：</p>
-<p>session：在一次会话范围中，无论何种跳转都可以使用</p>
-<p>application范围：</p>
-<p>application:在整个服务器上保存</p>
+<p>}</p>
+<p>int try_allocation()&#x2F;&#x2F;尝试分配资源<br>{<br>    int i,j;<br>    int f&#x3D;TRUE;</p>
+<pre><code>printf(&quot;请输入请求进程号:\n&quot;);
+while(scanf(&quot;%d&quot;,&amp;id))
+&#123;
+    if(id&lt;0|id&gt;m)
+        printf(&quot;进程不存在!\n&quot;);
+    else
+        break;
+&#125;
+printf(&quot;请输入请求资源数:\n&quot;);
+for(i=0;i&lt;n;i++)
+  scanf(&quot;%d&quot;,&amp;Request[i]);
+printf(&quot;开始为进程P%d分配资源:\n&quot;,id);
+for(i=0;i&lt;n;i++)
+&#123;
+    if(Request[i]&gt;Need[id][i])
+    &#123;       
+        printf(&quot;进程请求资源数大于所需资源数,不予分配!\n&quot;);
+        f =  FALSE;
+    &#125;
+    else 
+        if(Request[i]&gt;Available[i])
+        &#123;
+            printf(&quot;进程请求资源数大于可用资源数，无法分配!\n&quot;);
+            f = FALSE;
+        &#125;
+    if(f==TRUE) 
+    &#123;
+        Available[i]-=Request[i];//可用资源数减少 
+        Allocation[id][i]+=Request[i];//获得的资源数增加 
+        Need[id][i]-=Request[i];//还需要的资源数减少 	
+    &#125;
+&#125;	
+return f;
+</code></pre>
+<p>}</p>
+<p>void print()<br>{<br>    int i,j,k;<br>    printf(“\t  Max             Allocation          Need          Finish\n”);<br>    for(j&#x3D;0;j&lt;4;j++)<br>    {<br>        printf(“\t  “);<br>        for(i&#x3D;0;i&lt;n;i++)<br>        printf(“%c  “,(char)(‘A’+i));<br>    }</p>
+<pre><code>printf(&quot;\n******************************************************************************\n&quot;);
+for(i=0;i&lt;m;i++)
+&#123;
+    printf(&quot;P%d\t&quot;,i);
+    for(j=0;j&lt;n;j++)
+        printf(&quot;%3d&quot;,MAX[i][j]);
+        printf(&quot;\t&quot;);
+    for(j=0;j&lt;n;j++)
+        printf(&quot;%3d&quot;,Allocation[i][j]);
+        printf(&quot;\t&quot;);
+    for(j=0;j&lt;n;j++)
+        printf(&quot;%3d&quot;,Need[i][j]);
+        printf(&quot;\t&quot;);
+    if(Finish[i]==FALSE)
+        printf(&quot;false\n&quot;);
+    else 
+        printf(&quot;true\n&quot;);
+&#125;
+</code></pre>
+<p>}</p>
+<p>void return_back()<br>{<br>    int i,j;<br>    for(i&#x3D;0;i&lt;n;i++)<br>    {<br>        Available[i]+&#x3D;Request[i];<br>        Allocation[id][i]-&#x3D;Request[i];<br>        Need[id][i]+&#x3D;Request[i];<br>    }</p>
+<p>}</p>
+<p>&#x2F;<em>安全性检查函数</em>&#x2F;<br>int is_safe()<br>{<br>    int i,j;<br>    int count &#x3D; 0;<br>    printf(“<strong><strong><strong><strong><strong>Work向量</strong></strong></strong></strong></strong>\n”);<br>    for(i&#x3D;0;i&lt;n;i++)<br>        Work[i]&#x3D;Available[i];&#x2F;&#x2F;work初始值与available<br>    for(i&#x3D;0;i&lt;m;i++)<br>        Finish[i]&#x3D;FALSE;<br>    for(i&#x3D;0;i&lt;m;i++)<br>    {<br>        if(Finish[i]&#x3D;&#x3D;FALSE)<br>        {<br>            for(j&#x3D;0;j&lt;n;j++)<br>            {<br>                if(Need[i][j]&gt;Work[j])<br>                break;<br>            }<br>            if(j&#x3D;&#x3D;n)&#x2F;&#x2F;需要的n种资源的个数都小于可以分配的资源数work的值<br>            {<br>                printf(“P%d\t”,i);<br>                safe[count++]&#x3D;i;<br>                for(j&#x3D;0;j&lt;n;j++)<br>                {<br>                    Work[j]+&#x3D; Allocation[i][j];&#x2F;&#x2F;work存放着可以分配的资源数，allocation释放的资源给work<br>                    printf(“%d\t”,Work[j]);<br>                }<br>                printf(“\n”);<br>                Finish[i]&#x3D;TRUE;  &#x2F;&#x2F;进程i能顺利完成<br>                if(i&#x3D;&#x3D;m-1)<br>                    i&#x3D;-1;&#x2F;&#x2F;重新开始<br>            }<br>        }	<br>    }<br>    printf(“\n”);<br>    for(i&#x3D;0;i&lt;m;i++)<br>    {<br>        if(Finish[i]&#x3D;&#x3D;FALSE)<br>        {	<br>            printf(“进程P%d不能顺利完成！\n”,i);<br>            return FALSE;<br>        }<br>    }<br>    &#x2F;<em>如果前面未返回，则存在安全序列</em>&#x2F;<br>    printf(“存在如下安全序列:\n”);<br>    for(i&#x3D;0;i&lt;m;i++)<br>        printf(“P%d   “,safe[i]);<br>    printf(“\n”);<br>    return TRUE;<br>}</p>
+<p>int main(void)<br>{<br>    int choice;<br>    while(1)<br>    {<br>        printf(“欢迎使用模拟避免进程死锁算法，请选择你要进行的操作:\n”);<br>        printf(“\t<strong>1、初始化系统\n”);<br>        printf(“\t</strong>2、请求分配资源\n”);<br>        printf(“\t<strong>3、查看系统分配结果\n”);	<br>        printf(“\t</strong>0、退出系统\n”);<br>        scanf(“%d”,&amp;choice);<br>        if(choice&#x3D;&#x3D;1)<br>            init();<br>        else if(choice&#x3D;&#x3D;2)<br>        {<br>            if(try_allocation()&#x3D;&#x3D;TRUE)<br>            {<br>                flag &#x3D; is_safe();<br>                    if(flag&#x3D;&#x3D;FALSE)<br>                    {<br>                            printf(“系统不安全,不能予以分配!\n\n”);<br>                            return_back();<br>            			}else{<br>                            printf(“系统安全！分配成功!\n\n”);<br>                            print();</p>
+<pre><code>                &#125;
+        &#125;
+        else
+        &#123;
+            printf(&quot;分配失败!\n&quot;);
+            return_back();
+        &#125;
+    &#125;
+    else 
+    if(choice==3)
+        print();
+    else 
+    if(choice==0)
+        break;
+    else
+        printf(&quot;输入不合法!重新输入!\n&quot;);
+&#125;
+</code></pre>
+<p>}</p>
 
                 
             </div>
@@ -546,7 +582,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://xziou.github.io/Xziou.github.oi/Xziou.github.oi/2024/03/17/mysecondblog/">https://xziou.github.io/Xziou.github.oi/Xziou.github.oi/2024/03/17/mysecondblog/</a>
+                    <a href="https://xziou.github.io/Xziou.github.oi/Xziou.github.oi/2024/03/17/mythirdblog/">https://xziou.github.io/Xziou.github.oi/Xziou.github.oi/2024/03/17/mythirdblog/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1014,9 +1050,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/Xziou.github.oi/2024/03/17/mythirdblog/">
                     <div class="card-image">
@@ -1034,9 +1071,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2024-03-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2024-03-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -1045,6 +1082,7 @@
                         </span>
                     </div>
                 </div>
+
                 
             </div>
         </div>
@@ -1055,7 +1093,7 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/Xziou.github.oi/2024/03/17/myfirstblog/">
+                <a href="/Xziou.github.oi/2024/03/17/mysecondblog/">
                     <div class="card-image">
                         
                         
